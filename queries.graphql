@@ -1,0 +1,101 @@
+# Health Check Query
+query HealthCheck {
+  healthCheck
+}
+
+# Customer Spending Queries
+query GetCustomerSpending {
+  getCustomerSpending(customerId: "7895595e-7f25-47fe-a6f8-94b31bfab736") {
+    customerId
+    totalSpent
+    averageOrderValue
+    lastOrderDate
+  }
+}
+
+query GetCustomerSpendingMinimal {
+  getCustomerSpending(customerId: "7895595e-7f25-47fe-a6f8-94b31bfab736") {
+    totalSpent
+  }
+}
+
+# Top Selling Products Queries
+query GetTop10Products {
+  getTopSellingProducts(limit: 10) {
+    productId
+    name
+    totalSold
+  }
+}
+
+query GetTop5ProductsNamesOnly {
+  getTopSellingProducts(limit: 5) {
+    name
+  }
+}
+
+# Sales Analytics Queries
+query FullYearSalesAnalytics {
+  getSalesAnalytics(startDate: "2024-01-01", endDate: "2024-12-31") {
+    totalRevenue
+    completedOrders
+    categoryBreakdown {
+      category
+      revenue
+    }
+  }
+}
+
+query Q4SalesAnalytics {
+  getSalesAnalytics(startDate: "2024-10-01", endDate: "2024-12-31") {
+    totalRevenue
+    completedOrders
+    categoryBreakdown {
+      category
+      revenue
+    }
+  }
+}
+
+# Comprehensive Query (all in one)
+query ComprehensiveTest {
+  healthCheck
+  getSalesAnalytics(endDate: "2025-06-20", startDate: "2024-11-13") {
+    completedOrders
+    totalRevenue
+    categoryBreakdown {
+      category
+      revenue
+    }
+  }
+  getTopSellingProducts(limit: 10) {
+    name
+    productId
+    totalSold
+  }
+  getCustomerSpending(customerId: "7895595e-7f25-47fe-a6f8-94b31bfab736") {
+    averageOrderValue
+    customerId
+    lastOrderDate
+    totalSpent
+  }
+}
+
+# Error Case Testing
+query InvalidCustomer {
+  getCustomerSpending(customerId: "invalid-id") {
+    totalSpent
+  }
+}
+
+query NoLimitProducts {
+  getTopSellingProducts(limit: 0) {
+    name
+  }
+}
+
+query InvalidDateRange {
+  getSalesAnalytics(startDate: "2025-01-01", endDate: "2024-01-01") {
+    totalRevenue
+  }
+}
